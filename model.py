@@ -311,9 +311,10 @@ class InceptionI3d(torch.nn.Module):
         out = torch.squeeze(out, dim=4)  # removing width  (NUM_CLASSES, 9, 1)
         out = torch.squeeze(out, dim=3)  # removing height (NUM_CLASSES, 9)
         out = torch.mean(out, dim=2)  # averaging across time. (NUM_CLASSES)
+        logits = out
         out = self.softmax(out)
 
-        return out
+        return out, logits
 
 
 #model = InceptionI3d(num_classes=400)
