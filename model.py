@@ -6,17 +6,17 @@ class InceptionBlock(torch.nn.Module):
     def __init__(self, in_channels, name):
         super().__init__()
 
-        self.branch_0 = InceptionBlockBranch0(in_channels, name)
-        self.branch_1 = InceptionBlockBranch1(in_channels, name)
-        self.branch_2 = InceptionBlockBranch2(in_channels, name)
-        self.branch_3 = InceptionBlockBranch3(in_channels, name)
+        self.Branch_0 = InceptionBlockBranch0(in_channels, name)
+        self.Branch_1 = InceptionBlockBranch1(in_channels, name)
+        self.Branch_2 = InceptionBlockBranch2(in_channels, name)
+        self.Branch_3 = InceptionBlockBranch3(in_channels, name)
 
 
     def forward(self, input):
-        branch_0 = self.branch_0(input)
-        branch_1 = self.branch_1(input)
-        branch_2 = self.branch_2(input)
-        branch_3 = self.branch_3(input)
+        branch_0 = self.Branch_0(input)
+        branch_1 = self.Branch_1(input)
+        branch_2 = self.Branch_2(input)
+        branch_3 = self.Branch_3(input)
 
         return torch.cat([branch_0, branch_1, branch_2, branch_3], dim=1)
 
@@ -269,7 +269,7 @@ class InceptionI3d(torch.nn.Module):
         out_channels = num_classes
         kernel = (1, 1, 1)
         stride = (1, 1, 1)
-        self.Conv3d_6b_1x1 = Conv3dBlock(in_channels, out_channels, kernel,
+        self.Conv3d_0c_1x1 = Conv3dBlock(in_channels, out_channels, kernel,
                                          stride, use_bias=True,
                                          use_batch_norm=False,
                                          activation_fn=None)
@@ -306,7 +306,7 @@ class InceptionI3d(torch.nn.Module):
 
         out = self.AvgPool3d_6a_7x7(out)  # (1024, 9, 1, 1)
         out = self.dropout(out)
-        out = self.Conv3d_6b_1x1(out)  # (NUM_CLASSES, 9, 1, 1)
+        out = self.Conv3d_0c_1x1(out)  # (NUM_CLASSES, 9, 1, 1)
 
         out = torch.squeeze(out, dim=4)  # removing width  (NUM_CLASSES, 9, 1)
         out = torch.squeeze(out, dim=3)  # removing height (NUM_CLASSES, 9)
@@ -316,13 +316,13 @@ class InceptionI3d(torch.nn.Module):
         return out
 
 
-model = InceptionI3d(num_classes=400)
-model.cuda()
-
-input = np.random.random([1, 3, 79, 224, 224])
-input_pt = torch.FloatTensor(input)
-input_pt = torch.autograd.Variable(input_pt).cuda()
-
-la = model(input_pt)
-
-import pdb; pdb.set_trace()
+#model = InceptionI3d(num_classes=400)
+#model.cuda()
+#
+#input = np.random.random([1, 3, 79, 224, 224])
+#input_pt = torch.FloatTensor(input)
+#input_pt = torch.autograd.Variable(input_pt).cuda()
+#
+#la = model(input_pt)
+#
+#import pdb; pdb.set_trace()
