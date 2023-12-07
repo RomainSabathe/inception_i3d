@@ -33,5 +33,3 @@ Class: 143, output: 9.44640632383e-08, logits: 9.68161010742
 Class: 168, output: 7.84288545219e-08, logits: 9.49558258057
 Class: 153, output: 7.80173650128e-08, logits: 9.49032211304
 ```
-
-Still WIP.
